@@ -1,0 +1,312 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    overflow-x: hidden;
+}
+
+/* --- Aurora Background --- */
+.aurora-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+.aurora-outer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200vw;
+    height: 200vh;
+    transform: translate(-50%, -50%);
+    animation: rotate 20s linear infinite;
+}
+.aurora-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 25% 25%, rgba(0, 119, 255, 0.2) 0%, transparent 40%),
+                      radial-gradient(circle at 75% 25%, rgba(0, 255, 136, 0.2) 0%, transparent 40%),
+                      radial-gradient(circle at 75% 75%, rgba(255, 77, 148, 0.2) 0%, transparent 40%),
+                      radial-gradient(circle at 25% 75%, rgba(255, 165, 0, 0.2) 0%, transparent 40%);
+}
+@keyframes rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* --- Glassmorphism Card --- */
+.glass-card {
+    background: rgba(22, 27, 34, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+/* --- Scroll Animations --- */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Letter Reveal Animations --- */
+#animated-headline .letter, .animated-title .char {
+    display: inline-block;
+    opacity: 0;
+}
+
+#animated-headline .letter {
+    transform: translateY(20px) scale(0.8);
+    animation: letter-reveal 0.5s forwards;
+}
+
+@keyframes letter-reveal {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.animated-title.is-visible .char {
+    animation: letter-jump 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+@keyframes letter-jump {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.5) rotate(15deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+    }
+}
+
+/* --- Profile Picture Glow --- */
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); }
+    50% { box-shadow: 0 0 25px rgba(0, 255, 255, 0.5); }
+}
+.animate-pulse-glow {
+    animation: pulse-glow 3s infinite ease-in-out;
+}
+
+/* --- Project Slider --- */
+.slider {
+    width: 100%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+.slider-track {
+    display: flex;
+    width: calc(350px * 18); /* Card width * number of cards (9 original + 9 copies) */
+    animation: scroll 65s linear infinite;
+}
+.slider:hover .slider-track {
+    animation-play-state: paused;
+}
+.slide {
+    width: 350px;
+    flex-shrink: 0;
+    padding: 0 1rem;
+}
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-350px * 9)); } /* Scroll the length of the original 9 cards */
+}
+
+/* --- Sidebar Navigation --- */
+#sidebar {
+    transition: transform 0.3s ease-in-out;
+}
+.sidebar-nav a {
+    transition: all 0.2s ease;
+}
+.sidebar-nav a.active {
+    background-color: rgba(3, 138, 255, 0.2);
+    color: #58a6ff;
+    border-right: 3px solid #58a6ff;
+}
+.sidebar-nav a:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: translateX(5px);
+}
+
+/* --- Zigzag Timeline --- */
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.timeline-item {
+    width: 50%;
+    margin-bottom: 50px;
+    position: relative;
+}
+.timeline-item:nth-child(odd) {
+    align-self: flex-start;
+    padding-right: 50px;
+    text-align: right;
+}
+.timeline-item:nth-child(even) {
+    align-self: flex-end;
+    padding-left: 50px;
+}
+.timeline-dot {
+    content: '';
+    position: absolute;
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #58a6ff;
+    border: 3px solid #0d1117;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+.timeline-item:nth-child(odd) .timeline-dot {
+    right: -8px;
+}
+.timeline-item:nth-child(even) .timeline-dot {
+    left: -8px;
+}
+.timeline-item:hover .timeline-dot {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+}
+.timeline-line {
+    content: '';
+    position: absolute;
+    top: 12px;
+    width: 50px;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.timeline-item:nth-child(odd) .timeline-line {
+    right: 0;
+}
+.timeline-item:nth-child(even) .timeline-line {
+    left: 0;
+}
+
+/* --- Skill Tooltip --- */
+.skill-tooltip {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    pointer-events: none;
+}
+.group:hover .skill-tooltip {
+    opacity: 1;
+    transform: translateY(0);
+}
+.skill-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(30, 41, 59, 0.7) transparent transparent transparent;
+}
+
+
+
+
+/* === Navigation Hover Jump Animation === */
+@keyframes nav-jump {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0); }
+  }
+  
+  .sidebar-nav a:hover {
+    animation: nav-jump 0.4s ease;
+  }
+  
+  /* === Animate-On-Scroll with Bounce === */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: scale(0.95) translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  
+  /* === Letter Reveal (Already Present, Keep Updated) === */
+  @keyframes letter-jump {
+    0% {
+      opacity: 0;
+      transform: translateY(50px) scale(0.5) rotate(15deg);
+    }
+    80% {
+      transform: translateY(-8px) scale(1.05) rotate(0deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1) rotate(0deg);
+    }
+  }
+  
+  .animated-title.is-visible .char {
+    animation: letter-jump 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  /* === Floating Hover Effect for Cards or Buttons === */
+  .button-style, .skill-badge, .glass-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .button-style:hover, .skill-badge:hover, .glass-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 10px 20px rgba(0, 255, 255, 0.1);
+  }
+  
+  /* === Scroll-Down Cue === */
+  .scroll-down-cue {
+    width: 26px;
+    height: 40px;
+    border: 2px solid #58a6ff;
+    border-radius: 13px;
+    margin: 30px auto 0;
+    position: relative;
+    opacity: 0.75;
+  }
+  
+  .scroll-down-cue::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #58a6ff;
+    position: absolute;
+    left: 50%;
+    top: 8px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    animation: scroll-down 1.5s infinite;
+  }
+  
+  @keyframes scroll-down {
+    0% { top: 8px; opacity: 1; }
+    50% { top: 20px; opacity: 0.5; }
+    100% { top: 8px; opacity: 1; }
+  }
+  
